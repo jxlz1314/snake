@@ -3,7 +3,7 @@
 
 本实例由原生JS + HTML + CSS实现，因为功能简单未使用任何框架纯手工打造
 
-fork自https://github.com/SunQQQ/snake。
+fork自https://github.com/SunQQQ/snake 。
 
 ## Build Setup
 直接在浏览器里打开index.html即可；
