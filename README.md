@@ -2,6 +2,7 @@
 >此实例为贪吃蛇小游戏，演示地址 [http://39.104.22.73:70/](https://jxlz1314.github.io/snake/)
 
 本实例由原生JS + HTML + CSS实现，因为功能简单未使用任何框架纯手工打造
+
 fork自https://github.com/SunQQQ/snake。
 
 ## Build Setup
