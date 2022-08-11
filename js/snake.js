@@ -7,10 +7,14 @@ function Snake(para) {
   // 在新建蛇时可以修改的参数
   this.gameSpeed = para.gameSpeed; //游戏开场时的速度
   this.gameOver = para.gameOver;
+  this.gameLevel = para.gameLevel;
 
   // 初始化的参数
   this.snakeBody = [];  // 蛇的身体
   this.eggNum = 0;      // 蛋的个数
+  this.iLevel = 0;      // 选择难度
+  this.istop = 0;      // 选择难度
+  this.iopen = 0;           // 打开次数
   this.headerTr = 0;    // 蛇头的横坐标
   this.headertd = 0;    // 蛇头的纵坐标
   this.tds = [];        // 装整个棋盘的方块
@@ -26,6 +30,29 @@ function Snake(para) {
 Snake.prototype.turn = function () {
   var that = this;
 
+if (this.iLevel!=0){
+this.gameSpeed=this.iLevel;
+//window.alert(this.iLevel);
+this.beginGame();
+}
+
+
+
+
+if (this.iLevel!=0){
+//window.alert(this.gameSpeed);
+}
+
+if (this.istop==1){
+ this.gameLevel(this.iopen);
+this.iopen++;
+
+if (this.iLevel!=0){
+this.istop=0;
+}
+//window.alert(this.iLevel);
+}
+
   that.direction = arguments[0];
 
   // 限制回退操作
@@ -35,7 +62,7 @@ Snake.prototype.turn = function () {
     return;
   }
   that.preDirection = that.direction;
-
+  if (that.eggNum != 2||this.iLevel != 0) {
   if (that.direction == "left") {
     this.headertd -= 1;
   } else if (that.direction == "right") {
@@ -53,12 +80,13 @@ Snake.prototype.turn = function () {
       console.log('timer', that.timer);
 
       this.updateTime(false);
-
+  
       that.gameOver({
         score: that.eggNum * 10,
         time: that.timeBegin + 's',
         overReason: '撞墙啦'
       });
+
     } else {
       return;
     }
@@ -75,7 +103,11 @@ Snake.prototype.turn = function () {
   } else {                          //点击了方向键后，下一个移动的方块，不咬自己也不碰墙的逻辑处理
     if (this.snakeBody[this.snakeBody.length - 1] == this.block) {      //点击了方向键后，下一个移动的方块，刚好是蛋
       this.createEgg();
-      this.snakeBody[0].style.backgroundColor = "black";
+      this.snakeBody[0].style.backgroundColor = "red";
+
+      if(this.eggNum == 2&&this.iLevel == 0) { 
+      this.istop = 1;
+	};
     } else {                                                            //点击了方向键后，下一个移动的方块，不是蛋
       this.snakeBody[0].style.backgroundColor = "rgb(88, 104, 88)";     //蛇身体那个数组的第一个元素恢复成棋盘的背景颜色，
       this.snakeBody[0].style.border = "3px solid rgb(88, 104, 88)";
@@ -89,20 +121,25 @@ Snake.prototype.turn = function () {
     //给蛇身数组添加对应方向上的下一个方块。配合上面删除数组第一个元素并恢复背景色的操作，表现出一种往前挪到的动画
     this.snakeBody.push(this.tds[this.headerTr][this.headertd]);
 
-    this.snakeBody[this.snakeBody.length - 1].style.backgroundColor = "black";
-    this.snakeBody[this.snakeBody.length - 1].style.border = "3px solid black";
+    this.snakeBody[this.snakeBody.length - 1].style.backgroundColor = "red";
+    this.snakeBody[this.snakeBody.length - 1].style.border = "3px solid red";
   }
+}
 };
 
 /**
  * 随机的给一个方块上色
  * color:方块的背景色，和边框颜色
  */
+Snake.prototype.re_iLevel = function () {
+  return this.iLevel;
+}
+
 Snake.prototype.createRandomBlock = function (color) {
   var horizon, vertical;
 
   // 初始化时随机渲染一个黑色块作为蛇身
-  if (color == 'black') {
+  if (color == 'red') {
 
     horizon = parseInt(Math.random() * 30);
     vertical = parseInt(Math.random() * 30);
@@ -228,13 +265,13 @@ Snake.prototype.upDownAnimation = function (callback) {
 
     if (trNum < 30) {
       for (var i = 0; i < 29; i = i + 2) {
-        that.tds[trNum][i].style.backgroundColor = 'black';
-        that.tds[trNum][i].style.border = '3px solid black';
+        that.tds[trNum][i].style.backgroundColor = 'red';
+        that.tds[trNum][i].style.border = '3px solid red';
       }
 
       for (var t = 29; t > -1; t = t - 2) {
-        that.tds[tdNum][t].style.backgroundColor = 'black';
-        that.tds[tdNum][t].style.border = '3px solid black';
+        that.tds[tdNum][t].style.backgroundColor = 'red';
+        that.tds[tdNum][t].style.border = '3px solid red';
       }
     } else {
       window.clearInterval(upDownInter);
@@ -273,7 +310,7 @@ Snake.prototype.leftRightAnimation = function (callback) {
 
 Snake.prototype.beginGame = function () {
   var that = this;
-
+   
   // 如果循环存在，清除掉循环。为创建新循环做准备
   if (that.timer) {
     clearInterval(that.timer);
@@ -283,7 +320,7 @@ Snake.prototype.beginGame = function () {
   // 根据吃的蛋个数不同，提升循环间隔时间
   that.timer = window.setInterval(function () {
     that.turn(that.direction);                //如果不按方向键，程序会定时循环调用turn方法，并传入目前的方向。玩家看到的就是不操作键盘时，蛇一直朝着一个方向向前游
-  }, that.gameSpeed);
+  },this.gameSpeed);
 }
 
 

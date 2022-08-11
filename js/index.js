@@ -15,6 +15,7 @@ var OverDeal = function (gameData) {
     });
 
     messageBox.reloadGame(gameData.score - 10,gameData.overReason);
+//messageBox.reloadGame2();
 
     messageBox.myAjax({
         url: 'http://39.104.22.73:8081/ScoreCreate/foreend',
@@ -23,14 +24,24 @@ var OverDeal = function (gameData) {
             // 重载英雄榜
             messageBox.reloadScoreList();
             // 弹出游戏结束弹框
-            messageBox.reloadGame(gameData.score - 10,gameData.overReason);
+           messageBox.reloadGame(gameData.score - 10,gameData.overReason);
+//messageBox.reloadGame2();
         }
     });
 };
 
+var levelHard = function (openNum) {
+
+if (openNum==0) {
+     messageBox.reloadGame2();
+}
+
+}
+
 var snakeObject = new Snake({
     gameSpeed: 200,
-    gameOver: OverDeal
+    gameOver: OverDeal,
+    gameLevel: levelHard
 });
 
 snakeObject.drawChessBoard();// 画棋盘
@@ -42,7 +53,7 @@ snakeObject.upDownAnimation(function () {   // 欢迎动画
     });
 
     snakeObject.listenKeyDown(); //监听上下左右按钮
-    var firstBody = snakeObject.createRandomBlock('black');// 随机上色一个方块
+    var firstBody = snakeObject.createRandomBlock('red');// 随机上色一个方块
 
     snakeObject.headerTr = firstBody.horizon;// 初始化蛇头位置
     snakeObject.headertd = firstBody.vertical;

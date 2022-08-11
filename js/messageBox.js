@@ -46,6 +46,9 @@ MessageBox.prototype.reloadScoreList = function(callback){
 MessageBox.prototype.getUserInfo = function (callback) {
   // 弹出输入框
   document.getElementsByClassName('wrapper')[0].style.display = 'flex';
+document.getElementsByClassName('lv1')[0].style.display = 'none';
+document.getElementsByClassName('lv2')[0].style.display = 'none';
+document.getElementsByClassName('lv3')[0].style.display = 'none';
 
   this.reloadScoreList(callback);
 
@@ -70,6 +73,50 @@ MessageBox.prototype.myAjax = function (para) {
   };
 };
 
+// 游戏结束后的弹框2
+MessageBox.prototype.reloadGame2 = function () {
+  var text = '请选择游戏难度';
+
+  // 显示弹框，隐藏掉输入框，修改掉部分文本
+
+  document.getElementsByClassName('wrapper')[0].style.display = 'flex';
+
+  if(document.getElementsByClassName('sq-input')[0]){
+    document.getElementsByClassName('sq-input')[0].style.display = 'none';
+  }
+
+  document.getElementsByClassName('box-content')[0].innerHTML = text ;
+
+document.getElementsByClassName('lv1')[0].style.display = 'flex';
+document.getElementsByClassName('lv2')[0].style.display = 'flex';
+document.getElementsByClassName('lv3')[0].style.display = 'flex';
+document.getElementsByClassName('lv1')[0].innerHTML = '简单的';
+ document.getElementsByClassName('lv2')[0].innerHTML = '中等难度';
+document.getElementsByClassName('lv3')[0].innerHTML = '令人发狂的';
+document.getElementsByClassName('skip')[0].style.display = 'none';
+document.getElementsByClassName('conform')[0].style.display = 'none';
+
+  document.getElementsByClassName('lv1')[0].onclick = function () {
+    snakeObject.iLevel=500;
+document.getElementsByClassName('wrapper')[0].style.display = 'none';
+//window.alert(leveGame);
+  };
+  document.getElementsByClassName('lv2')[0].onclick = function () {
+    snakeObject.iLevel=200;
+//window.alert(snakeObject.re_iLevel());
+document.getElementsByClassName('wrapper')[0].style.display = 'none';
+//window.alert(leveGame);
+  };
+  document.getElementsByClassName('lv3')[0].onclick = function () {
+    snakeObject.iLevel=50;
+document.getElementsByClassName('wrapper')[0].style.display = 'none';
+  };
+  };
+
+MessageBox.prototype.closeWrapper = function () {
+ document.getElementsByClassName('wrapper')[0].style.display = 'none';
+}
+
 // 游戏结束后的弹框
 MessageBox.prototype.reloadGame = function (score,overReason) {
   var text = '您的得分是';
@@ -84,19 +131,23 @@ MessageBox.prototype.reloadGame = function (score,overReason) {
   document.getElementsByClassName('box-header')[0].innerHTML = overReason;
   document.getElementsByClassName('box-content')[0].innerHTML = text + score + text2;
   // 添加一个按钮
-  document.getElementsByClassName('leave-Message')[0].style.display = 'inline';
+  //document.getElementsByClassName('leave-Message')[0].style.display = 'inline';
   // 修改按钮上的文字
+document.getElementsByClassName('skip')[0].style.display = 'inline';
+document.getElementsByClassName('conform')[0].style.display = 'inline';
   document.getElementsByClassName('conform')[0].innerHTML = '看下源码';
   document.getElementsByClassName('skip')[0].innerHTML = '再来一局';
   document.getElementsByClassName('head-button')[0].style.display = 'none';
+document.getElementsByClassName('lv1')[0].style.display = 'none';
+document.getElementsByClassName('lv2')[0].style.display = 'none';
+document.getElementsByClassName('lv3')[0].style.display = 'none';
 
-
-  // 修改按钮绑定的函数
-  document.getElementsByClassName('leave-Message')[0].onclick = function (){
-    window.open('http://39.104.22.73:67/#/MessageBoard');
-  };
+ //  修改按钮绑定的函数
+//  document.getElementsByClassName('leave-Message')[0].onclick = function (){
+ //   window.open('http://39.104.22.73:67/#/MessageBoard');
+ // };
   document.getElementsByClassName('conform')[0].onclick = function () {
-    window.open('https://github.com/SunQQQ/snake');
+    window.open('https://github.com/jxlz1314/snake');
   };
   document.getElementsByClassName('skip')[0].onclick = function () {
     window.location.reload();
